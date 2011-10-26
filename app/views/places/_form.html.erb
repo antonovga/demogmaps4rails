@@ -1,0 +1,58 @@
+<%= form_for(@place) do |f| %>
+  <% if @place.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@place.errors.count, "error") %> prohibited this place from being saved:</h2>
+
+      <ul>
+      <% @place.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :address %><br />
+    <%= f.text_field :address %>
+  </div>
+  <div class="field">
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </div>
+  <div class="field">
+    <%= f.label :gmaps %><br />
+    <%= f.check_box :gmaps %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<%= gmaps4rails(@place.to_gmaps4rails) %>
+
+<% content_for :scripts do %>
+    <script type="text/javascript" charset="utf-8">
+        var marker = null;
+        Gmaps.map.callback = function()
+            {
+                google.maps.event.addListener(Gmaps.map.map, 'click', function(object){
+//                    Gmaps4Rails.replaceMarkers();
+//                    Gmaps.clearMarkers();
+                    if (marker != null) { marker.setMap(null); }
+                    marker = new google.maps.Marker({position: object.latLng, map: Gmaps.map.map});
+                    $("#place_latitude").val(object.latLng.lat());
+                    $("#place_longitude").val(object.latLng.lng());
+//                    marker = new {lng:object.latLng.lng(),lat:object.latLng.lat()};
+//                    Gmaps4Rails.replaceMarkers(marker);
+                }
+                );
+            }
+    </script>
+<% end %>
