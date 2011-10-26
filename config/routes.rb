@@ -1,4 +1,9 @@
 Demogmaps4rails::Application.routes.draw do
+  resources :places
+
+
+
+  root :to => "places#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
