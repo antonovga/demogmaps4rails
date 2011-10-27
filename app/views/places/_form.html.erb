@@ -43,8 +43,7 @@
         Gmaps.map.callback = function()
             {
                 google.maps.event.addListener(Gmaps.map.map, 'click', function(object){
-//                    Gmaps4Rails.replaceMarkers();
-//                    Gmaps.clearMarkers();
+                    Gmaps.map.clearMarkers();
                     if (marker != null) { marker.setMap(null); }
                     marker = new google.maps.Marker({position: object.latLng, map: Gmaps.map.map});
                     $("#place_latitude").val(object.latLng.lat());
